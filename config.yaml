@@ -1,0 +1,14 @@
+gijiroku: data/gijiroku.csv
+giin: data/giin.csv
+iinkai: data/iinkai.csv
+jogai: data/exclusion.csv
+font: static/ShipporiMinchoB1-ExtraBold.ttf
+target:
+  place: 足立区
+  start: 1999年5月
+  end: 2022年9月
+  url: https://www.gikai-adachi.jp/index.asp
+developer:
+  name: 岡村健一
+  contact: https://twitter.com/Okamura_Kenichi
+  img: static/developer.png
