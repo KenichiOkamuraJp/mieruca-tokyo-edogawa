@@ -1,6 +1,8 @@
+import json
 import yaml
 import MeCab
 import random
+import requests
 from PIL import Image
 from datetime import datetime, timedelta, timezone
 
@@ -31,9 +33,9 @@ st.markdown('そんな人向けに、政治家の議会での発言を1枚の画
 st.markdown('（引用おわり）')
 st.markdown('対象は' + place + '、期間は' + start + 'から' + end + 'まで。')
 
-# 議事録CSVの読み込み
-logs = pd.read_csv(config['gijiroku'], encoding='UTF-8')
-year_list_temp = list(set(logs['年度']))
+# 年度CSVの読み込み
+year_list_temp = pd.read_csv(config['years'], header=None, encoding='UTF-8')
+year_list_temp = list(year_list_temp[0])
 year_list_temp.sort()
 year_list = [str(y) for y in year_list_temp]
 first_year = year_list[0]
@@ -82,13 +84,6 @@ with st.expander("■「会議体」での絞り込み", False): # 折りたた�
     iinkai_list
   )
   st.markdown('　※ 政治家を選択せずに絞り込みを設定すると勝手に人が変わっちゃいます。その場合は政治家を選択してください。')
-option_selected_i = '|'.join(option_selected_i)
-
-#選択した委員会のテキスト化して読み込み（後の条件付けのため　←　なんだったっけ？
-f = open('work/temp_iinkai.txt', 'w', encoding="utf8")#textに書き込み
-f.writelines(option_selected_i)
-f.close()
-option_selected_i_txt = open("work/temp_iinkai.txt", encoding="utf8").read()
 
 #対象とする年度を選択する
 with st.expander("■「年度」での絞り込み", False):# 折りたたみ
@@ -102,7 +97,17 @@ start_year = int(start_year)
 end_year = int(end_year)
 
 # 設定した条件の人、委員会、年度で議事録ファイルを抽出する
-logs_contents_temp = logs[(logs['人分類'].str.contains(option_selected_g)) & (logs['委員会'].str.contains(option_selected_i_txt)) & (logs['年度'] >= start_year) & (logs['年度'] <= end_year)]
+url = config['api']
+payload = {
+  "name": option_selected_g,
+  "iinkai": json.dumps(option_selected_i, ensure_ascii=False),
+  "year": json.dumps(list(range(start_year, end_year)), ensure_ascii=False)
+}
+r = requests.post(url, params=payload)
+r_dict = json.loads(r.text)
+r_body = r_dict["body"]
+log_contents = json.loads(r_body)
+logs_contents_temp = pd.DataFrame.from_records(log_contents)
 
 # 絞り込んだ議事録ファイルの特定列だけを抽出する
 logs_contents_temp_show = logs_contents_temp[["年月日","人分類","内容分類","質問","回答","会議","内容","年度","文字数"]]
