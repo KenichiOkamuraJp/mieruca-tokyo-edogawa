@@ -4,7 +4,7 @@ iinkai: data/iinkai.csv
 years: data/years.csv
 jogai: data/exclusion.csv
 font: static/ShipporiMinchoB1-ExtraBold.ttf
-api: https://e1oz0osoe1.execute-api.ap-northeast-1.amazonaws.com/default/mieruca-read-log
+api: 
 target:
   place: 足立区
   start: 2017年4月

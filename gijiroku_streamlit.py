@@ -97,7 +97,7 @@ start_year = int(start_year)
 end_year = int(end_year)
 
 # 設定した条件の人、委員会、年度で議事録ファイルを抽出する
-url = config['api']
+url = st.secrets['api-url']
 payload = {
   "name": option_selected_g,
   "iinkai": json.dumps(option_selected_i, ensure_ascii=False),
