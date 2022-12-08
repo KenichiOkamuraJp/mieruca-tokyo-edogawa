@@ -4,7 +4,6 @@ iinkai: data/iinkai.csv
 years: data/years.csv
 jogai: data/exclusion.csv
 font: static/ShipporiMinchoB1-ExtraBold.ttf
-api: 
 target:
   place: 足立区
   start: 2017年4月
