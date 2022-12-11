@@ -1,3 +1,4 @@
+code: 131237
 gijiroku: data/gijiroku.csv
 giin: data/giin.csv
 iinkai: data/iinkai.csv
@@ -5,10 +6,10 @@ years: data/years.csv
 jogai: data/exclusion.csv
 font: static/ShipporiMinchoB1-ExtraBold.ttf
 target:
-  place: 足立区
+  place: 江戸川区
   start: 2017年4月
-  end: 2022年9月
-  url: https://www.gikai-adachi.jp/index.asp
+  end: 2022年10月
+  url: https://www.gikai.city.edogawa.tokyo.jp/kaigiroku.asp
 developer:
   name: 岡村健一
   contact: https://twitter.com/Okamura_Kenichi

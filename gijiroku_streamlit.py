@@ -99,6 +99,7 @@ end_year = int(end_year)
 # 設定した条件の人、委員会、年度で議事録ファイルを抽出する
 url = st.secrets['api-url']
 payload = {
+  "code": config["code"],
   "name": option_selected_g,
   "iinkai": json.dumps(option_selected_i, ensure_ascii=False),
   "year": json.dumps(list(range(start_year, end_year)), ensure_ascii=False)
@@ -109,22 +110,22 @@ r_body = r_dict["body"]
 log_contents = json.loads(r_body)
 logs_contents_temp = pd.DataFrame.from_records(log_contents)
 
-# 絞り込んだ議事録ファイルの特定列だけを抽出する
-logs_contents_temp_show = logs_contents_temp[["年月日","人分類","内容分類","質問","回答","会議","内容","年度","文字数"]]
-
-# 年度ごとに文字数を集計する
-logs_contents_temp_moji = logs_contents_temp.groupby('年度').sum()
-
-# 文字数の部分だけを抽出する
-logs_contents_temp_moji = logs_contents_temp_moji['文字数']
-
-st.header(':cake: 結果表示')
-# 議事録CSVのうち、発言内容部分のみのデータを作成する
-logs_contents = logs_contents_temp['内容']
-
-if len(logs_contents) == 0:
+if len(log_contents) == 0:
   st.markdown('選択された議員の、選択された条件での発言は存在しません。')
+  
 else:
+  # 絞り込んだ議事録ファイルの特定列だけを抽出する
+  logs_contents_temp_show = logs_contents_temp[["年月日","人分類","内容分類","質問","回答","会議","内容","年度","文字数"]]
+
+  # 年度ごとに文字数を集計する
+  logs_contents_temp_moji = logs_contents_temp.groupby('年度').sum()
+
+  # 文字数の部分だけを抽出する
+  logs_contents_temp_moji = logs_contents_temp_moji['文字数']
+
+  st.header(':cake: 結果表示')
+  # 議事録CSVのうち、発言内容部分のみのデータを作成する
+  logs_contents = logs_contents_temp['内容']
 
   # テキストファイルとして保存する
   f = open('work/temp.txt', 'w', encoding="utf8")#textに書き込み
