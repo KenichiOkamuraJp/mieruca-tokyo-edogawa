@@ -7,7 +7,7 @@ jogai: data/exclusion.csv
 font: static/ShipporiMinchoB1-ExtraBold.ttf
 target:
   place: 江戸川区
-  start: 2017年4月
+  start: 2003年2月
   end: 2022年10月
   url: https://www.gikai.city.edogawa.tokyo.jp/kaigiroku.asp
 developer:
